@@ -6,7 +6,7 @@ import android.view.View;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class ClingManager implements View.OnClickListener {
+public class ClingManager {
 
     private Queue<Cling> mClingQueue = new LinkedList<>();
 
@@ -29,6 +29,10 @@ public class ClingManager implements View.OnClickListener {
         mCallbacks = callbacks;
     }
 
+    public boolean isStarted() {
+        return mIsStarted;
+    }
+
     public void start() {
         if (mIsStarted)
             return;
@@ -37,12 +41,27 @@ public class ClingManager implements View.OnClickListener {
         mCurrentIndex = -1;
 
         mClingView = new ClingView(mActivity);
-        mClingView.setOnClickListener(this);
+        mClingView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mCallbacks == null || !mCallbacks.onClingClick(mCurrentIndex)) {
+                    mClingView.hide(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mCallbacks != null)
+                                mCallbacks.onClingHide(mCurrentIndex);
+
+                            showNext();
+                        }
+                    });
+                }
+            }
+        });
         mClingView.addInWindow(mActivity.getWindow());
         showNext();
     }
 
-    private void stop() {
+    public void stop() {
         if (!mIsStarted)
             return;
 
@@ -70,21 +89,6 @@ public class ClingManager implements View.OnClickListener {
             });
         } else {
             stop();
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (mCallbacks == null || !mCallbacks.onClingClick(mCurrentIndex)) {
-            mClingView.hide(new Runnable() {
-                @Override
-                public void run() {
-                    if (mCallbacks != null)
-                        mCallbacks.onClingHide(mCurrentIndex);
-
-                    showNext();
-                }
-            });
         }
     }
 
