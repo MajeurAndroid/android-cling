@@ -20,6 +20,9 @@ public class ViewTarget extends Target {
 
     @Override
     public Point getLocation() {
+        if (mViewWeakReference.get() == null)
+            return new Point();
+
         final int[] loc = new int[2];
         mViewWeakReference.get().getLocationOnScreen(loc);
         return new Point(loc[0], loc[1]);
