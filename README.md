@@ -1,5 +1,5 @@
 # Android-Cling
-
+Example of use is available in [Solid Launcher](https://play.google.com/store/apps/details?id=com.majeur.launcher) :
 ![alt tag](https://raw.githubusercontent.com/MajeurAndroid/Android-Cling/master/web_art/device_example.png)
 
 ## What is Cling library
@@ -26,10 +26,10 @@ Clings are managed through ClingManager class.
 
         mClingManager = new ClingManager(this);
 
+        // When no Target is set, Target.NONE is used
         mClingManager.addCling(new Cling.Builder(this)
                 .setTitle("Welcome to this app")
                 .setContent("This application is meant to be the best app you will ever try on android.")
-                .setTarget(Target.NONE)
                 .build());
 
         mClingManager.addCling(new Cling.Builder(this)
@@ -53,7 +53,9 @@ Clings are managed through ClingManager class.
             @Override
             public boolean onClingClick(int position) {
                 // We return false to tell to cling manager that we didn't handle this,
-                // so it can perform the default action (ie. showing the next Cling)
+                // so it can perform the default action (ie. showing the next Cling).
+                // This is the default value returned by super.onClingClick(position), so
+                // in a real project, we would just leave this method unoverriden.
                 return false;
             }
 
