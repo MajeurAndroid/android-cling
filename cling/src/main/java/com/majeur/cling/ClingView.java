@@ -75,6 +75,11 @@ class ClingView extends AbsoluteLayout {
 
     void removeFromWindow(Window window) {
         ((ViewGroup) window.getDecorView()).removeView(this);
+
+        if (mTargetBitmap != null) {
+            mTargetBitmap.recycle();
+            mTargetBitmap = null;
+        }
     }
 
     void show(final Runnable whenDidShow) {
@@ -129,7 +134,7 @@ class ClingView extends AbsoluteLayout {
             ((Target.DummyTarget) mTarget).set(getWidth(), getHeight());
 
         final int targetWidth = (int) Math.min(mTarget.getWidth(), getWidth() * 0.6666f);
-        final int targetHeight = (int) Math.min(mTarget.getHeight(), getWidth() * 0.6666f);
+        final int targetHeight = (int) Math.min(mTarget.getHeight(), getHeight() * 0.6666f);
         final float size = Math.max(targetWidth, targetHeight) * 1.2f;
 
         mTargetBitmap = Bitmap.createBitmap((int) size, (int) size, Bitmap.Config.ARGB_4444);
