@@ -80,7 +80,7 @@ class MessageView extends LinearLayout {
     }
 
     private int getDecoredColor() {
-        final int color =  mPaint.getColor();
+        final int color = mPaint.getColor();
         return color == -1 ? Color.WHITE : (isDark(color) ? Color.WHITE : Color.DKGRAY);
     }
 
