@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
+
+    <Button
+        android:id="@+id/clear_preference"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear START_TUTORIAL_KEY boolean shared preference"/>
+
+    <LinearLayout
+        android:id="@id/button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Button 1"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Button 2"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Button 3"/>
+
+    </LinearLayout>
+
+    <SlidingDrawer
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:content="@+id/content"
+        android:handle="@+id/handle">
+
+        <ImageView
+            android:id="@id/handle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#95000000"
+            android:padding="10dp"
+            android:rotation="180"
+            android:src="@android:drawable/ic_menu_more"/>
+
+        <FrameLayout
+            android:id="@id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#95000000">
+
+            <ImageView
+                android:id="@+id/drawer_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@android:drawable/sym_def_app_icon"/>
+
+        </FrameLayout>
+
+
+    </SlidingDrawer>
+
+</FrameLayout>

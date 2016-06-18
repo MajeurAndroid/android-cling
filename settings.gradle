@@ -1,1 +1,1 @@
-include ':cling'
+include ':cling', ':clingapp'

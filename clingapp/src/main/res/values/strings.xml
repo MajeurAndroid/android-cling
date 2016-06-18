@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drawer_tutorial_title">Task buttons</string>
+    <string name="drawer_tutorial_message">These buttons are useful if you want to run some tasks. You just have to click the button you want.</string>
+</resources>

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ClingSample.iml" filepath="$PROJECT_DIR$/ClingSample.iml" />
       <module fileurl="file://$PROJECT_DIR$/cling/cling.iml" filepath="$PROJECT_DIR$/cling/cling.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clingapp/clingapp.iml" filepath="$PROJECT_DIR$/clingapp/clingapp.iml" />
     </modules>
   </component>
 </project>

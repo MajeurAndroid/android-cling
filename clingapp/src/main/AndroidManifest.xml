@@ -1,0 +1,35 @@
+<manifest
+    package="com.majeur.clingapp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Cling Sample"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.DeviceDefault.Light"
+        tools:replace="android:label">
+
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".DemoActivity"
+            android:parentActivityName=".MainActivity"/>
+
+        <activity
+            android:name=".FirstLaunchDemoActivity"
+            android:parentActivityName=".MainActivity"/>
+
+    </application>
+
+</manifest>

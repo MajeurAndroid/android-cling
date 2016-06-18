@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="textAppearanceTitleNice" parent="@android:style/TextAppearance.Large">
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
+    <style name="textAppearanceContentNice" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textStyle">italic</item>
+    </style>
+</resources>

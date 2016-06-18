@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/cling" />
+            <option value="$PROJECT_DIR$/clingapp" />
           </set>
         </option>
       </GradleProjectSettings>
