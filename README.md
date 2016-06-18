@@ -1,6 +1,10 @@
 # Android-Cling
-Example of use is available in [Solid Launcher](https://play.google.com/store/apps/details?id=com.majeur.launcher) :
-![alt tag](https://raw.githubusercontent.com/MajeurAndroid/Android-Cling/master/web_art/device_example.png)
+
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--Cling-green.svg?style=true)](https://android-arsenal.com/details/1/3720)
+
+Example of use is available in [Solid Launcher](https://play.google.com/store/apps/details?id=com.majeur.launcher)
+
+<img src="https://raw.githubusercontent.com/MajeurAndroid/Android-Cling/master/web_art/device_example.png" height="800">
 
 ## What is Cling library
 Cling is a library that allows you to create overlays that will allow the user to be informed of how your application works.
