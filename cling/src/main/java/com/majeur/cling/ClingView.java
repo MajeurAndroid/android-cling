@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.Interpolator;
-import android.widget.AbsoluteLayout;
+import android.widget.FrameLayout;
 
-class ClingView extends AbsoluteLayout {
+class ClingView extends FrameLayout {
 
     private static final Xfermode XFERMODE_CLEAR = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
     private static final Interpolator INTERPOLATOR = new PathInterpolator(.1f, .7f, .1f, 1f);
@@ -32,7 +32,7 @@ class ClingView extends AbsoluteLayout {
     private Bitmap mTargetBitmap;
 
     private int mClingColor;
-    private boolean mFistLayoutPassed;
+    private boolean mFirstLayoutPassed;
 
     ClingView(Context context) {
         super(context);
@@ -49,7 +49,7 @@ class ClingView extends AbsoluteLayout {
         final int padding = (int) (10 * density);
         mMessageView.setPadding(padding, padding, padding, padding);
         addView(mMessageView, new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, 0, 0));
+                ViewGroup.LayoutParams.WRAP_CONTENT));
 
         setAlpha(0f);
         mMessageView.setAlpha(0f);
@@ -62,7 +62,7 @@ class ClingView extends AbsoluteLayout {
             public void onGlobalLayout() {
                 if (getViewTreeObserver().isAlive())
                     getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                mFistLayoutPassed = true;
+                mFirstLayoutPassed = true;
                 updateTargetInfo();
             }
         });
@@ -124,33 +124,44 @@ class ClingView extends AbsoluteLayout {
     }
 
     void updateTargetInfo() {
-        if (!mFistLayoutPassed)
+        if (!mFirstLayoutPassed)
             return;
 
         if (mTargetBitmap != null)
             mTargetBitmap.recycle();
 
-        if (mTarget instanceof Target.DummyTarget)
-            ((Target.DummyTarget) mTarget).set(getWidth(), getHeight());
+        if (mTarget.isValid()) {
+            final int targetWidth = (int) Math.min(mTarget.getWidth(), getWidth() * 0.6666f);
+            final int targetHeight = (int) Math.min(mTarget.getHeight(), getHeight() * 0.6666f);
+            final float size = Math.max(targetWidth, targetHeight) * 1.2f;
 
-        final int targetWidth = (int) Math.min(mTarget.getWidth(), getWidth() * 0.6666f);
-        final int targetHeight = (int) Math.min(mTarget.getHeight(), getHeight() * 0.6666f);
-        final float size = Math.max(targetWidth, targetHeight) * 1.2f;
+            mTargetBitmap = Bitmap.createBitmap((int) size, (int) size, Bitmap.Config.ARGB_4444);
+            Canvas canvas = new Canvas(mTargetBitmap);
+            canvas.drawColor(mClingColor);
+            mPaint.setXfermode(XFERMODE_CLEAR);
+            canvas.drawCircle(size / 2, size / 2, size / 2, mPaint);
+            mPaint.setXfermode(null);
 
-        mTargetBitmap = Bitmap.createBitmap((int) size, (int) size, Bitmap.Config.ARGB_4444);
-        Canvas canvas = new Canvas(mTargetBitmap);
-        canvas.drawColor(mClingColor);
-        mPaint.setXfermode(XFERMODE_CLEAR);
-        canvas.drawCircle(size / 2, size / 2, size / 2, mPaint);
-        mPaint.setXfermode(null);
+            mTargetPoint = mTarget.getCenterLocation();
+            invalidate();
 
-        mTargetPoint = mTarget.getCenterLocation();
-        invalidate();
+            setMessageLocation(resolveMessageViewLocation());
 
+        } else {
+            mTargetPoint = null;
+            mTargetBitmap = null;
+            invalidate();
+
+            final int x = getWidth() / 2 - mMessageView.getWidth() / 2;
+            final int y = getHeight() / 2 - mMessageView.getHeight() / 2;
+            setMessageLocation(new Point(x, y));
+        }
+    }
+
+    void setMessageLocation(Point p) {
         LayoutParams params = (LayoutParams) mMessageView.getLayoutParams();
-        Point p = resolveMessageViewLocation();
-        params.x = p.x;
-        params.y = p.y;
+        params.leftMargin = p.x;
+        params.topMargin = p.y;
         requestLayout();
     }
 
@@ -198,22 +209,29 @@ class ClingView extends AbsoluteLayout {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        float bmpX = mTargetPoint.x - mTargetBitmap.getWidth() / 2;
-        float bmpY = mTargetPoint.y - mTargetBitmap.getHeight() / 2;
-        canvas.drawBitmap(mTargetBitmap, bmpX, bmpY, null);
+        // If mTargetBitmap is null, the Cling did not provide a target,
+        // so we just draw without hole.
+        if (mTargetBitmap != null) {
+            float bmpX = mTargetPoint.x - mTargetBitmap.getWidth() / 2;
+            float bmpY = mTargetPoint.y - mTargetBitmap.getHeight() / 2;
+            canvas.drawBitmap(mTargetBitmap, bmpX, bmpY, null);
 
-        mPath.reset();
-        mPath.moveTo(0, 0);
-        mPath.lineTo(canvas.getWidth(), 0);
-        mPath.lineTo(canvas.getWidth(), bmpY);
-        mPath.lineTo(bmpX, bmpY);
-        mPath.lineTo(bmpX, bmpY + mTargetBitmap.getHeight());
-        mPath.lineTo(bmpX + mTargetBitmap.getWidth(), bmpY + mTargetBitmap.getHeight());
-        mPath.lineTo(bmpX + mTargetBitmap.getWidth(), bmpY);
-        mPath.lineTo(canvas.getWidth(), bmpY);
-        mPath.lineTo(canvas.getWidth(), canvas.getHeight());
-        mPath.lineTo(0, canvas.getHeight());
-        mPath.close();
-        canvas.drawPath(mPath, mPaint);
+            mPath.reset();
+            mPath.moveTo(0, 0);
+            mPath.lineTo(canvas.getWidth(), 0);
+            mPath.lineTo(canvas.getWidth(), bmpY);
+            mPath.lineTo(bmpX, bmpY);
+            mPath.lineTo(bmpX, bmpY + mTargetBitmap.getHeight());
+            mPath.lineTo(bmpX + mTargetBitmap.getWidth(), bmpY + mTargetBitmap.getHeight());
+            mPath.lineTo(bmpX + mTargetBitmap.getWidth(), bmpY);
+            mPath.lineTo(canvas.getWidth(), bmpY);
+            mPath.lineTo(canvas.getWidth(), canvas.getHeight());
+            mPath.lineTo(0, canvas.getHeight());
+            mPath.close();
+            canvas.drawPath(mPath, mPaint);
+
+        } else {
+            canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), mPaint);
+        }
     }
 }
