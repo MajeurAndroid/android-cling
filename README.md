@@ -1,6 +1,7 @@
 # Android-Cling
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--Cling-green.svg?style=true)](https://android-arsenal.com/details/1/3720)
+[![Download](https://api.bintray.com/packages/majeurandroid/maven/cling/images/download.svg) ](https://bintray.com/majeurandroid/maven/cling/_latestVersion)
 
 Example of use is available in [Solid Launcher](https://play.google.com/store/apps/details?id=com.majeur.launcher)
 
@@ -15,6 +16,25 @@ You can display one unique overlay or sequence of overlays. Overlays are represe
 Clings point to a Target, if Target isn't Target.NONE, the overlay will have a hole just on the provided Target. This allows user to focus on the ui element you want to describe.
 
 ## How to use Cling library
+### Dependency
+Add to your **project**'s build.gradle file:
+
+    repositories {
+        ...
+		maven {
+		    url 'http://dl.bintray.com/majeurandroid/maven/'
+		}
+		...
+	}
+Add to your **module**'s build.gradle file:
+
+	dependencies {
+	    ...
+		compile 'com.majeur.cling:cling:1.1'
+	    ...
+	}
+
+### Implementation
 Clings are managed through ClingManager class.
 ```java
 

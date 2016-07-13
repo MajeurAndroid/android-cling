@@ -1,5 +1,29 @@
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'cling'
+
+    publishedGroupId = 'com.majeur.cling'
+    libraryName = 'Android-Cling'
+    artifact = 'cling'
+
+    libraryDescription = 'Android library that provides a simple way of make user discovering your apps when he first opens it'
+
+    siteUrl = 'https://github.com/MajeurAndroid/Android-Cling'
+    gitUrl = 'https://github.com/MajeurAndroid/Android-Cling.git'
+
+    libraryVersion = '1.1'
+
+    developerId = 'majeurandroid'
+    developerName = 'Majeur'
+    developerEmail = 'majeur.android@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -22,3 +46,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
