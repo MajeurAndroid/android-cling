@@ -2,6 +2,7 @@
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--Cling-green.svg?style=true)](https://android-arsenal.com/details/1/3720)
 [![Download](https://api.bintray.com/packages/majeurandroid/maven/cling/images/download.svg) ](https://bintray.com/majeurandroid/maven/cling/_latestVersion)
+![Maven](https://img.shields.io/badge/Maven-jcenter-green.svg)
 
 Example of use is available in [Solid Launcher](https://play.google.com/store/apps/details?id=com.majeur.launcher)
 
@@ -21,9 +22,7 @@ Add to your **project**'s build.gradle file:
 
     repositories {
         ...
-		maven {
-		    url 'http://dl.bintray.com/majeurandroid/maven/'
-		}
+		jcenter()
 		...
 	}
 Add to your **module**'s build.gradle file:
